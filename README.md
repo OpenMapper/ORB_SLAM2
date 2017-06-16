@@ -1,6 +1,8 @@
 # ORB-SLAM2
 **Authors:** [Raul Mur-Artal](http://webdiis.unizar.es/~raulmur/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/), [J. M. M. Montiel](http://webdiis.unizar.es/~josemari/) and [Dorian Galvez-Lopez](http://doriangalvez.com/) ([DBoW2](https://github.com/dorian3d/DBoW2))
 
+**Changes:** [Nicolas Degen](https://www.nide.ch) & [Carlos Gomes](http://carlosgomes.ch)
+
 [![Build Status](https://travis-ci.org/OpenMapper/ORB_SLAM2.svg?branch=master)](https://travis-ci.org/OpenMapper/ORB_SLAM2)
 
 Please visit the [original repository  Mur-Artal](https://github.com/raulmur/ORB_SLAM2) for information about the original usage. This version of ORB_SLAM2 was modified to be used in this project.
@@ -13,12 +15,11 @@ ORB-SLAM2 is released under a [GPLv3 license](https://github.com/raulmur/ORB_SLA
 
 # Prerequisites
 
-## C++11 or C++0x Compiler
+## C++11 Compiler
 We use the new thread and chrono functionalities of C++11.
 
 ## OpenCV
-We use [OpenCV](http://opencv.org) to manipulate images and features. Dowload and install instructions can be found at: http://opencv.org. **Required at leat 2.4.3. Tested with OpenCV 2.4.11 and OpenCV 3.2**.
-
+We use [OpenCV](http://opencv.org) to manipulate images and features. Download and install instructions can be found at: http://opencv.org. **Required at least 3.2.**
 ## Eigen3
 Required by g2o (see below). Download and install instructions can be found at: http://eigen.tuxfamily.org. **Required at least 3.1.0**.
 
