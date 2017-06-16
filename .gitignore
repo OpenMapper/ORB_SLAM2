@@ -22,3 +22,6 @@ build/
 *~
 lib/
 
+# Eclipse project settings
+.cproject
+.project
