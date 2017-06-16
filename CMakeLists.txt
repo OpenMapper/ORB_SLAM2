@@ -71,10 +71,9 @@ target_link_libraries(${PROJECT_NAME}
   ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 )
 
+
 # Build examples
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples)
-
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 add_executable(mono_main
 Examples/mono_main.cc)
 target_link_libraries(mono_main ${PROJECT_NAME})
