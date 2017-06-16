@@ -55,7 +55,7 @@ class LoopClosing;
 class System;
 
 class Tracking
-{
+{  
 
 public:
     Tracking(System* pSys, ORBVocabulary* pVoc, FrameDrawer* pFrameDrawer, MapDrawer* pMapDrawer, Map* pMap,
@@ -118,6 +118,11 @@ public:
     bool mbOnlyTracking;
 
     void Reset();
+    
+    Map* mpMap;
+    cv::Mat mK;
+    cv::Mat mDistCoef;
+    float mbf;
 
 protected:
 
@@ -173,22 +178,22 @@ protected:
     KeyFrame* mpReferenceKF;
     std::vector<KeyFrame*> mvpLocalKeyFrames;
     std::vector<MapPoint*> mvpLocalMapPoints;
-
+    
     // System
     System* mpSystem;
-
+    
     //Drawers
     Viewer* mpViewer;
     FrameDrawer* mpFrameDrawer;
     MapDrawer* mpMapDrawer;
 
     //Map
-    Map* mpMap;
+    //Map* mpMap;
 
     //Calibration matrix
-    cv::Mat mK;
-    cv::Mat mDistCoef;
-    float mbf;
+    //cv::Mat mK;
+    //cv::Mat mDistCoef;
+    //float mbf;
 
     //New KeyFrame rules (according to fps)
     int mMinFrames;
