@@ -75,5 +75,5 @@ target_link_libraries(${PROJECT_NAME}
 # Build examples
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 add_executable(mono_main
-Examples/mono_main.cc)
+src/mono_main.cc)
 target_link_libraries(mono_main ${PROJECT_NAME})
