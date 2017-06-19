@@ -80,11 +80,11 @@ SET_TARGET_PROPERTIES(${ORB_SLAM2_LIB} PROPERTIES
 ################################
 
 FIND_PACKAGE(OpenCV 3.0 REQUIRED)
-FIND_PACKAGE(Eigen3 3.1.0 REQUIRED)
-
+FIND_PACKAGE(Eigen3 3.1.0 QUIET)
+IF(NOT Eigen3_FOUND)
+  SET(EIGEN3_INCLUDE_DIR "/usr/include/eigen3/")
+endif()
 INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
-# TODO(nidegen) Replace the Linux fix:
-INCLUDE_DIRECTORIES(/usr/include/eigen3/)
 
 INCLUDE(${CMAKE_CURRENT_LIST_DIR}/Thirdparty/DBoW2/CMakeLists.txt)
 INCLUDE(${CMAKE_CURRENT_LIST_DIR}/Thirdparty/g2o/CMakeLists.txt)
