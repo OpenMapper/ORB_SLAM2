@@ -15,19 +15,23 @@ IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release)
 ENDIF()
 
+
+
 SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # TODO(nidgen) discuss/check if following is needed: (from original CMakeLists.txt)
 ####################
 # MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
-# 
-# # TODO(gocarlos): read the warning, or put the -w in the package g2o from where most  warning come. 
+#
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -w")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+# # TODO(gocarlos): read the warning, or put the -w in the package g2o from where most  warning come.
 # # SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall  -O3 -march=native ")
 # # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3 -march=native")
 # SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -w   -O3 -march=native ")
 # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -w  -O3 -march=native")
-# 
+#
 # # Check C++11 support
 # INCLUDE(CheckCXXCompilerFlag)
 # CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -38,7 +42,7 @@ SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 # ELSE()
 #    MESSAGE(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 # ENDIF()
-# 
+#
 # LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 ##################################################################
 
@@ -57,8 +61,8 @@ SET(ORB_SLAM_RESOURCES ${ORB_SLAM_SOURCES} ${ORB_SLAM_HEADERS})
 
 ADD_LIBRARY(${ORB_SLAM2_LIB} STATIC ${ORB_SLAM_RESOURCES})
 
-TARGET_INCLUDE_DIRECTORIES(${ORB_SLAM2_LIB} PUBLIC 
-  "${CMAKE_CURRENT_LIST_DIR}/include" 
+TARGET_INCLUDE_DIRECTORIES(${ORB_SLAM2_LIB} PUBLIC
+  "${CMAKE_CURRENT_LIST_DIR}/include"
   "${CMAKE_CURRENT_LIST_DIR}/Thirdparty/g2o"
   "${CMAKE_CURRENT_LIST_DIR}/Thirdparty/DBoW2"
 )
