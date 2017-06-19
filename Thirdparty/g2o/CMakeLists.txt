@@ -64,8 +64,10 @@ SET_TARGET_PROPERTIES(${G2O_LIB} PROPERTIES
 ################################
 # Dependencies
 ################################
-FIND_PACKAGE(Eigen3 3.1.0 REQUIRED)
-
+FIND_PACKAGE(Eigen3 3.1.0 QUIET)
+IF(NOT Eigen3_FOUND)
+  SET(EIGEN3_INCLUDE_DIR "/usr/include/eigen3/")
+ENDIF()
 INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
 
 
