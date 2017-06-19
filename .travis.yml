@@ -18,15 +18,25 @@ addons:
       - python-numpy
       - libeigen3-dev
 before_script:
-  # install openCV
-  - git clone https://github.com/opencv/opencv.git
-  - cd opencv
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make -j4
-  - sudo make -j4 install
-  - cd ../..
+      - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+      - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+      - sudo apt-get update
+      - sudo apt-get install ros-kinetic-ros-base
+      - sudo rosdep init
+      - rosdep update
+      - source /opt/ros/kinetic/setup.bash
+      - sudo apt-get install ros-kinetic-opencv3
+
+# before_script:
+#   # install openCV
+#   - git clone https://github.com/opencv/opencv.git
+#   - cd opencv
+#   - mkdir build
+#   - cd build
+#   - cmake ..
+#   - make -j4
+#   - sudo make -j4 install
+#   - cd ../..
 
 script:
 
