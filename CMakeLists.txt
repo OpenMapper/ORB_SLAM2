@@ -95,13 +95,12 @@ INCLUDE(${CMAKE_CURRENT_LIST_DIR}/Thirdparty/g2o/CMakeLists.txt)
 
 IF(${PROJECT_NAME} EQUAL ${ORB_SLAM2_LIB})
   TARGET_LINK_LIBRARIES(${ORB_SLAM2_LIB}
-    pthread
+    debug pthread optimized pthread
     debug ${OpenCV_LIBRARIES} optimized ${OpenCV_LIBRARIES}
     debug ${DBOW2_LIB} optimized ${DBOW2_LIB}
     debug ${G2O_LIB} optimized ${G2O_LIB}
   )
 ENDIF(${PROJECT_NAME} EQUAL ${ORB_SLAM2_LIB})
-  
 
 # # Uncomment to display all CMAKE variables:
 # GET_CMAKE_PROPERTY(VARIABLE_NAMES VARIABLES)

@@ -1551,7 +1551,7 @@ void Tracking::Reset()
 //    if(mpViewer)
 //        mpViewer->Release();
 
-    mpViewer->Release();
+//    mpViewer->Release();
 }
 
 void Tracking::ChangeCalibration(const string &strSettingPath)
