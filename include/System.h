@@ -87,36 +87,16 @@ public:
     // This function must be called before saving the trajectory.
     void Shutdown();
 
-//    // Save camera trajectory in the TUM RGB-D dataset format.
-//    // Only for stereo and RGB-D. This method does not work for monocular.
-//    // Call first Shutdown()
-//    // See format details at: http://vision.in.tum.de/data/datasets/rgbd-dataset
-//    void SaveTrajectoryTUM(const string &filename);
-//
-//    // Save keyframe poses in the TUM RGB-D dataset format.
-//    // This method works for all sensor input.
-//    // Call first Shutdown()
-//    // See format details at: http://vision.in.tum.de/data/datasets/rgbd-dataset
-//    void SaveKeyFrameTrajectoryTUM(const string &filename);
-//
-//    // Save camera trajectory in the KITTI dataset format.
-//    // Only for stereo and RGB-D. This method does not work for monocular.
-//    // Call first Shutdown()
-//    // See format details at: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
-//    void SaveTrajectoryKITTI(const string &filename);
-
-    // TODO: Save/Load functions
-    // SaveMap(const string &filename);
-    // LoadMap(const string &filename);
-
     // Information from most recent processed frame
     // You can call this right after TrackMonocular (or stereo or RGBD)
     int GetTrackingState();
     std::vector<MapPoint*> GetTrackedMapPoints();
     std::vector<cv::KeyPoint> GetTrackedKeyPointsUn();
     
+    // Map structure that stores the pointers to all KeyFrames and MapPoints.
     Map* mpMap;
     Tracking* mpTracker;
+    FrameDrawer* mpFrameDrawer;
 
 private:
 
@@ -128,9 +108,6 @@ private:
 
     // KeyFrame database for place recognition (relocalization and loop detection).
     KeyFrameDatabase* mpKeyFrameDatabase;
-
-    // Map structure that stores the pointers to all KeyFrames and MapPoints.
-    //Map* mpMap;
 
     // Tracker. It receives a frame and computes the associated camera pose.
     // It also decides when to insert a new keyframe, create some new MapPoints and
@@ -145,9 +122,8 @@ private:
     LoopClosing* mpLoopCloser;
 
     // The viewer draws the map and the current camera pose. It uses Pangolin.
-//    Viewer* mpViewer;
+    // Viewer* mpViewer;
 
-    FrameDrawer* mpFrameDrawer;
     MapDrawer* mpMapDrawer;
 
     // System threads: Local Mapping, Loop Closing, Viewer.
