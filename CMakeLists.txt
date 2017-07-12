@@ -85,13 +85,15 @@ SET_TARGET_PROPERTIES(${ORB_SLAM2_LIB} PROPERTIES
 
 FIND_PACKAGE(OpenCV 3.0 REQUIRED)
 
-# FIXME: this should be cleaned. 
+# FIXME: this should be cleaned.
 FIND_PACKAGE(Eigen3 3.1.0 QUIET)
 IF(NOT Eigen3_FOUND)
   IF(EXISTS "/usr/include/eigen3")
     SET(EIGEN3_INCLUDE_DIR "/usr/include/eigen3")
-  ELSE()
+  ELSEIF(EXISTS "/usr/local/include/eigen3")
     SET(EIGEN3_INCLUDE_DIR "/usr/local/include/eigen3")
+  ELSE()
+    MESSAGE(FATAL_ERROR "Could not find the library Eigen!")
   ENDIF()
 ENDIF()
 INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
