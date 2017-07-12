@@ -84,16 +84,22 @@ SET_TARGET_PROPERTIES(${ORB_SLAM2_LIB} PROPERTIES
 ################################
 
 FIND_PACKAGE(OpenCV 3.0 REQUIRED)
+
+# FIXME: this should be cleaned. 
 FIND_PACKAGE(Eigen3 3.1.0 QUIET)
 IF(NOT Eigen3_FOUND)
-  SET(EIGEN3_INCLUDE_DIR "/usr/local/include/eigen3")
+  IF(EXISTS "/usr/include/eigen3")
+    SET(EIGEN3_INCLUDE_DIR "/usr/include/eigen3")
+  ELSE()
+    SET(EIGEN3_INCLUDE_DIR "/usr/local/include/eigen3")
+  ENDIF()
 ENDIF()
 INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
 
 INCLUDE(${CMAKE_CURRENT_LIST_DIR}/Thirdparty/DBoW2/CMakeLists.txt)
 INCLUDE(${CMAKE_CURRENT_LIST_DIR}/Thirdparty/g2o/CMakeLists.txt)
 
-# FIXME(nidegen): I uncommented this as gtest won't work with this on. 
+# FIXME(nidegen): I uncommented this as gtest won't work with this on.
 # IF(${PROJECT_NAME} EQUAL ${ORB_SLAM2_LIB})
   TARGET_LINK_LIBRARIES(${ORB_SLAM2_LIB}
     debug pthread optimized pthread
