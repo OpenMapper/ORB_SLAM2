@@ -183,7 +183,7 @@ protected:
     System* mpSystem;
 
     //Drawers
-    Viewer* mpViewer;
+//    Viewer* mpViewer;
     FrameDrawer* mpFrameDrawer;
     MapDrawer* mpMapDrawer;
 
