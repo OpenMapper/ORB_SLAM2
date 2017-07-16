@@ -83,7 +83,7 @@ SET_TARGET_PROPERTIES(${ORB_SLAM2_LIB} PROPERTIES
 # Dependencies
 ################################
 
-FIND_PACKAGE(OpenCV 3.0 REQUIRED)
+FIND_PACKAGE(OpenCV REQUIRED)
 
 # FIXME: this should be cleaned.
 FIND_PACKAGE(Eigen3 3.1.0 QUIET)
