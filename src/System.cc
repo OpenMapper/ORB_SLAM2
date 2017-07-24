@@ -23,7 +23,6 @@
 #include "System.h"
 #include "Converter.h"
 #include <thread>
-//#include <pangolin/pangolin.h>
 #include <iomanip>
 
 #include <unistd.h>
@@ -66,8 +65,8 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     cout << endl << "Loading ORB Vocabulary. This could take a while..." << endl;
 
     mpVocabulary = new ORBVocabulary();
-    bool bVocLoad = mpVocabulary->loadFromTextFile(strVocFile);
-    // bool bVocLoad = mpVocabulary->loadFromBinaryFile(strVocFile);
+//    bool bVocLoad = mpVocabulary->loadFromTextFile(strVocFile);
+    bool bVocLoad = mpVocabulary->loadFromBinaryFile(strVocFile);
     if(!bVocLoad)
     {
         cerr << "Wrong path to vocabulary. " << endl;

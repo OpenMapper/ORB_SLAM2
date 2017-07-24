@@ -239,6 +239,7 @@ public:
    * @param filename
    */
   bool loadFromTextFile(const std::string &filename);
+  bool loadFromBinaryFile(const std::string &filename);
 
   /**
    * Saves the vocabulary into a text file
@@ -1422,6 +1423,121 @@ bool TemplatedVocabulary<TDescriptor,F>::loadFromTextFile(const std::string &fil
     return true;
 
 }
+
+
+// --------------------------------------------------------------------------
+/**
+ * Copied from here: https://github.com/AlejandroSilvestri/os1/blob/9f77f21cd1082c16b0bf0db7b65623ad13e6a93d/Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h#L1
+ *
+ * Inspirado en loadFromTextFile, realiza las mismas operaciones pero abriendo un archivo binario.
+ * El archivo binario con el vocabulario ocupa un tercio del de texto, y carga infinitamente más rápido al evitar el parse.
+ * Al cargar el descriptor, utiliza FORB::fromArray en lugar de FORB::fromString.
+ * fromArray es una versión modificada para esto, inspirada en fromString.
+ *
+ * Estructura del archivo binario
+ *
+ * Encabezado: 4 bytes
+ * 1. m_k, 10
+ * 2. m_L, 6
+ * 3. m_scoring, 0: L1-NORM
+ * 4. m_weighting, 0:TF_IDF, term frequency - inverse document frequency
+ *
+ * Registros: 45 bytes
+ *
+ * 1. Nodo padre, int
+ * 2. nIsLeaf, char, 0 si es nodo, !=0 si es hoja
+ * 3. Descriptor, 32 bytes
+ * 4. Peso, double, válido si es hoja, 0 si no
+ */
+
+template<class TDescriptor, class F>
+bool TemplatedVocabulary<TDescriptor,F>::loadFromBinaryFile(const std::string &filename)
+{
+    ifstream archivoBinario (filename.c_str(), ios::in | ios::binary);
+
+    if(archivoBinario.eof()) return false;
+
+    m_words.clear();
+    m_nodes.clear();
+    unsigned char buffer[45];
+
+    // 1ª fila, 4 números int para las propiedaes m_k, m_L, m_scoring (vía n1) y m_weighting (vía n2)
+    archivoBinario.read((char*)buffer, 4);
+    int n1, n2;
+    m_k = buffer[0];	// 10
+    m_L = buffer[1];	// 6
+    n1  = buffer[2];	// 0
+    n2  = buffer[3];	// 0
+
+    // Si alguno de los 4 números está fuera de rango, aborta
+    if(m_k<0 || m_k>20 || m_L<1 || m_L>10 || n1<0 || n1>5 || n2<0 || n2>3)
+    {
+        std::cerr << "Vocabulary loading failure: This is not a correct text file!" << endl;
+	return false;
+    }
+
+    m_scoring = (ScoringType)n1;
+    m_weighting = (WeightingType)n2;
+    createScoringObject();
+
+    // nodes
+    int expected_nodes =
+    (int)((pow((double)m_k, (double)m_L + 1) - 1)/(m_k - 1));
+    m_nodes.reserve(expected_nodes);
+
+    m_words.reserve(pow((double)m_k, (double)m_L + 1));
+
+    m_nodes.resize(1);
+    m_nodes[0].id = 0;
+
+    int n=0;
+    while(!archivoBinario.eof())
+    {
+    	// Lee una línea del archivo
+        archivoBinario.read((char*)buffer, 45);
+
+        int nid = m_nodes.size();
+        m_nodes.resize(m_nodes.size()+1);
+        m_nodes[nid].id = nid;
+
+        // Primer valor de la línea: nº de nodo del padre, en pid
+        int pid = *((int*)buffer);
+        m_nodes[nid].parent = pid;
+        m_nodes[pid].children.push_back(nid);
+
+        // 2º valor de la línea: "es hoja"
+        int nIsLeaf = buffer[4];
+
+        /* 3º valor, 32 valores consecutivos de un byte, forman el descriptor de 256 bits.
+         * F::L es la longitud del descriptor en bytes, en este caso 32 fijo FORB::L.
+         * Arma una string con los 32 valores separados por espacios, e invoca F::fromString que arma el descriptor.
+         * El descriptor es un Mat CV_8U.
+         */
+        F::fromArray(m_nodes[nid].descriptor, buffer + 5);	// el descriptor comienza en el índice 5
+
+        m_nodes[nid].weight = *((double*)(buffer+37));
+
+        if(nIsLeaf>0){
+            int wid = m_words.size();
+            m_words.resize(wid+1);
+
+            m_nodes[nid].word_id = wid;
+            m_words[wid] = &m_nodes[nid];
+        }
+        else{
+            m_nodes[nid].children.reserve(m_k);
+        }
+
+        n++;	// Contador de descriptores para debug
+    }
+
+    cout << n << " descriptores de vocabulario BOW." << endl;
+
+    return true;
+
+}
+
+
 
 // --------------------------------------------------------------------------
 
