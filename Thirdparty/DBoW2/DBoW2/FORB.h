@@ -54,6 +54,14 @@ public:
   static std::string toString(const TDescriptor &a);
 
   /**
+   * Devuelve un descriptor a partir de sus datos binarios en un array.
+   * Esta función fue inspirada en fromString.
+   * @param a descriptor
+   * @param buffer array con el descriptor
+   */
+  static void fromArray(TDescriptor &a, unsigned char* p);
+
+  /**
    * Returns a descriptor from a string
    * @param a descriptor
    * @param s string version
