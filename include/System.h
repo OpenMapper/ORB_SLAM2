@@ -97,6 +97,7 @@ public:
     Map* mpMap;
     Tracking* mpTracker;
     FrameDrawer* mpFrameDrawer;
+    MapDrawer* mpMapDrawer;
 
 private:
 
@@ -121,16 +122,10 @@ private:
     // a pose graph optimization and full bundle adjustment (in a new thread) afterwards.
     LoopClosing* mpLoopCloser;
 
-    // The viewer draws the map and the current camera pose. It uses Pangolin.
-    // Viewer* mpViewer;
-
-    MapDrawer* mpMapDrawer;
-
     // System threads: Local Mapping, Loop Closing, Viewer.
     // The Tracking thread "lives" in the main execution thread that creates the System object.
     std::thread* mptLocalMapping;
     std::thread* mptLoopClosing;
-//    std::thread* mptViewer;
 
     // Reset flag
     std::mutex mMutexReset;
